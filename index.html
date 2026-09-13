@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Простые сайты для бизнеса</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#050706; --card:#0e1611; --card-soft:#14201a;
@@ -13,74 +13,123 @@
     --ink:#eaf0ec; --ink-dim:#84998b; --ink-faint:#4f6156;
     --accent:#4fb384; --accent-dim:#316b4c; --accent-tint:#122019;
     --grad: linear-gradient(135deg, #2e6d4c 0%, #5cc294 100%);
-    --grad-soft: linear-gradient(135deg, rgba(46,109,76,0.25) 0%, rgba(92,194,148,0.25) 100%);
+    --grad-soft: linear-gradient(135deg, rgba(46,109,76,0.28) 0%, rgba(92,194,148,0.28) 100%);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;}
   body{
     background:var(--bg); color:var(--ink);
     font-family:'Inter',sans-serif; line-height:1.5;
-    overflow:hidden;
+    overflow:hidden; position:relative;
     display:flex; flex-direction:column; align-items:center;
     padding:clamp(14px,3vw,28px) clamp(14px,3vw,28px) calc(clamp(14px,3vw,28px) + env(safe-area-inset-bottom));
-    background-image:radial-gradient(ellipse at 15% -10%, rgba(79,179,132,0.12), transparent 45%),
-                      radial-gradient(ellipse at 85% 110%, rgba(46,109,76,0.10), transparent 45%);
   }
+  /* decorative floating dot field + blobs, purely atmospheric */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(rgba(79,179,132,0.14) 1px, transparent 1px);
+    background-size:26px 26px; mask-image:radial-gradient(ellipse 70% 60% at 50% 20%, black 0%, transparent 75%);
+  }
+  .blob{position:fixed; border-radius:50%; filter:blur(50px); z-index:0; pointer-events:none;}
+  .blob-a{width:300px; height:300px; top:-100px; left:-80px; background:radial-gradient(circle, rgba(79,179,132,0.20), transparent 70%); animation:drift 14s ease-in-out infinite;}
+  .blob-b{width:260px; height:260px; bottom:-90px; right:-70px; background:radial-gradient(circle, rgba(49,107,76,0.22), transparent 70%); animation:drift 18s ease-in-out infinite reverse;}
+  @keyframes drift{0%,100%{transform:translate(0,0);} 50%{transform:translate(20px,-16px);}}
+
   .shell{
-    width:clamp(340px, 90vw, 480px);
+    width:clamp(340px, 60vw, 720px);
     height:100%; display:flex; flex-direction:column; min-height:0;
+    position:relative; z-index:1;
   }
   h1,h2{font-family:'Sora',sans-serif;}
 
   .id-card{
-    background:var(--card); border:1px solid var(--line); border-radius:18px;
-    padding:clamp(1rem,3vw,1.3rem) clamp(1.1rem,3.2vw,1.4rem); margin-bottom:clamp(10px,2vw,14px);
-    display:flex; align-items:center; gap:12px; flex-shrink:0;
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:clamp(1rem,2vw,1.5rem) clamp(1.1rem,2.2vw,1.6rem); margin-bottom:clamp(10px,2vw,14px);
+    display:flex; align-items:center; gap:14px; flex-shrink:0;
     transition:border-color 0.25s;
   }
   .id-card:hover{border-color:var(--accent-dim);}
-  .id-mark{
-    width:38px; height:38px; border-radius:11px; background:var(--grad);
-    border:1px solid var(--accent-dim); color:#08130d;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; flex-shrink:0;
-    box-shadow:0 4px 14px rgba(79,179,132,0.25);
+  .id-mark-wrap{position:relative; width:44px; height:44px; flex-shrink:0;}
+  .id-mark-ring{
+    position:absolute; inset:-4px; border-radius:14px;
+    background:conic-gradient(from 0deg, var(--accent), transparent 40%, var(--accent-dim), transparent 80%, var(--accent));
+    animation:spin 6s linear infinite; opacity:0.55;
   }
-  .id-card h1{font-size:clamp(0.95rem,2.6vw,1.05rem); font-weight:600; line-height:1.3;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .id-mark{
+    position:absolute; inset:0; border-radius:12px; background:var(--grad);
+    color:#08130d; display:flex; align-items:center; justify-content:center;
+    font-family:'Sora',sans-serif; font-weight:800; font-size:1.05rem;
+    box-shadow:0 4px 16px rgba(79,179,132,0.3);
+  }
+  .id-card h1{font-size:clamp(0.95rem,1.6vw,1.2rem); font-weight:600; line-height:1.3;}
 
   .nav{
-    display:flex; gap:5px; background:var(--card); border:1px solid var(--line);
+    position:relative; display:flex; gap:2px; background:var(--card); border:1px solid var(--line);
     border-radius:16px; padding:5px; margin-bottom:clamp(10px,2vw,14px); overflow-x:auto; flex-shrink:0;
   }
   .nav::-webkit-scrollbar{display:none;}
+  .nav-indicator{
+    position:absolute; top:5px; bottom:5px; border-radius:12px; background:var(--grad-soft);
+    border:1px solid var(--accent-dim); box-shadow:0 0 0 1px rgba(79,179,132,0.15) inset;
+    transition:all 0.32s cubic-bezier(.4,0,.2,1); z-index:0;
+  }
   .nav-btn{
-    flex-shrink:0; background:transparent; border:1px solid transparent; border-radius:12px;
-    padding:clamp(0.75rem,2.2vw,0.9rem) clamp(0.9rem,2.6vw,1.1rem); font-family:'Inter',sans-serif; font-weight:500;
-    font-size:clamp(0.88rem,2.3vw,0.97rem); color:var(--ink-dim); cursor:pointer;
-    transition:all 0.22s cubic-bezier(.4,0,.2,1); white-space:nowrap;
+    position:relative; z-index:1; flex-shrink:0; background:transparent; border:none; border-radius:12px;
+    padding:clamp(0.75rem,1.4vw,0.9rem) clamp(0.9rem,1.6vw,1.1rem); font-family:'Inter',sans-serif; font-weight:500;
+    font-size:clamp(0.88rem,1.3vw,1.05rem); color:var(--ink-dim); cursor:pointer;
+    transition:color 0.22s; white-space:nowrap;
   }
-  .nav-btn.active{
-    background:var(--grad-soft); border-color:var(--accent-dim); color:var(--accent);
-    box-shadow:0 0 0 1px rgba(79,179,132,0.15) inset;
-  }
-  .nav-btn:not(.active):hover{color:var(--ink); border-color:var(--line-soft); transform:translateY(-1px);}
+  .nav-btn.active{color:var(--accent);}
+  .nav-btn:not(.active):hover{color:var(--ink);}
   .nav-btn:active{transform:scale(0.96);}
 
   .panel{
-    background:var(--card); border:1px solid var(--line); border-radius:18px;
-    padding:clamp(1.2rem,3.5vw,1.6rem); display:none;
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:clamp(1.2rem,2.4vw,2.1rem); display:none;
     flex:1; min-height:0; overflow-y:auto;
     animation:fade 0.28s cubic-bezier(.16,1,.3,1);
   }
   .panel.active{display:block;}
   @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
-  .panel h2{font-size:clamp(1rem,2.8vw,1.1rem); margin-bottom:14px; font-weight:600;}
-  .panel p{color:var(--ink-dim); font-size:clamp(0.9rem,2.4vw,0.96rem); margin-bottom:10px;}
+  .panel h2{font-size:clamp(1rem,1.6vw,1.3rem); margin-bottom:14px; font-weight:600;}
+  .panel p{color:var(--ink-dim); font-size:clamp(0.9rem,1.2vw,1.04rem); margin-bottom:10px;}
   .panel p:last-child{margin-bottom:0;}
+
+  .stagger{opacity:0; transform:translateY(8px); animation:rise 0.4s cubic-bezier(.16,1,.3,1) forwards;}
+  .stagger:nth-child(1){animation-delay:0.03s;} .stagger:nth-child(2){animation-delay:0.09s;}
+  .stagger:nth-child(3){animation-delay:0.15s;} .stagger:nth-child(4){animation-delay:0.21s;}
+  @keyframes rise{to{opacity:1; transform:none;}}
+
+  /* ── About panel: editorial typography ── */
+  .about-kicker{
+    display:inline-flex; align-items:center; gap:7px; color:var(--accent);
+    font-size:0.78rem; font-weight:600; letter-spacing:0.4px; margin-bottom:14px;
+  }
+  .about-kicker::before{content:""; width:16px; height:1.5px; background:var(--accent);}
+  .about-lead{
+    font-size:clamp(1.25rem,2.2vw,1.7rem); font-weight:700; line-height:1.4;
+    letter-spacing:-0.3px; margin-bottom:22px;
+  }
+  .grad-text{
+    background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .about-block{
+    border-left:2px solid var(--accent-dim); padding:2px 0 2px 18px; margin-bottom:22px;
+  }
+  .about-block p{color:var(--ink-dim); font-size:clamp(0.92rem,1.2vw,1.02rem); line-height:1.7; margin-bottom:12px;}
+  .about-block p:last-child{margin-bottom:0;}
+  .about-tags{display:flex; gap:8px; flex-wrap:wrap;}
+  .about-tags span{
+    background:var(--card-soft); border:1px solid var(--line); color:var(--ink-dim);
+    font-size:0.8rem; font-weight:500; padding:7px 14px; border-radius:20px;
+    transition:all 0.2s;
+  }
+  .about-tags span:hover{border-color:var(--accent-dim); color:var(--accent); transform:translateY(-2px);}
 
   .list-row{display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line-soft); transition:transform 0.2s;}
   .list-row:last-child{border-bottom:none;}
-  .list-row:hover{transform:translateX(3px);}
+  .list-row:hover{transform:translateX(4px);}
   .list-row .ico{
     width:30px; height:30px; border-radius:9px; background:var(--grad-soft); border:1px solid var(--accent-dim);
     color:var(--accent); display:flex; align-items:center; justify-content:center;
@@ -91,7 +140,7 @@
 
   .price-row{display:flex; justify-content:space-between; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--line-soft); transition:transform 0.2s;}
   .price-row:last-child{border-bottom:none;}
-  .price-row:hover{transform:translateX(3px);}
+  .price-row:hover{transform:translateX(4px);}
   .price-row .label{font-size:0.94rem;}
   .price-row .label small{display:block; color:var(--ink-faint); font-size:0.8rem; margin-top:2px;}
   .price-row .val{font-family:'Sora',sans-serif; font-weight:700; font-size:0.98rem; white-space:nowrap;
@@ -103,95 +152,183 @@
     transition:all 0.25s cubic-bezier(.4,0,.2,1); background:var(--card-soft);
   }
   .work-card:last-child{margin-bottom:0;}
-  .work-card:hover{border-color:var(--accent-dim); transform:translateY(-3px); box-shadow:0 10px 24px rgba(79,179,132,0.15);}
+  .work-card:hover{border-color:var(--accent-dim); transform:translateY(-3px) scale(1.01); box-shadow:0 10px 24px rgba(79,179,132,0.15);}
   .work-card strong{display:block; font-size:0.97rem; margin-bottom:3px; font-weight:600;}
   .work-card span{color:var(--ink-faint); font-size:0.85rem;}
   .work-card .tag{display:inline-block; background:var(--grad); color:#08130d; font-weight:600; font-size:0.72rem; padding:3px 10px; border-radius:20px; margin-top:9px;}
 
-  .contact-btn{
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    width:100%; padding:clamp(1rem,3vw,1.2rem); border-radius:16px; text-decoration:none;
-    font-weight:600; font-size:clamp(0.96rem,2.6vw,1.03rem); margin-bottom:12px;
-    border:1px solid transparent; transition:all 0.22s cubic-bezier(.4,0,.2,1);
+  /* ── Floating WhatsApp button (draggable) ── */
+  .fab{
+    position:fixed; right:clamp(16px,4vw,32px); bottom:calc(clamp(16px,4vw,32px) + env(safe-area-inset-bottom));
+    z-index:5; display:flex; align-items:center; gap:9px;
+    background:var(--grad); color:#06120c; text-decoration:none; font-weight:700; font-size:0.95rem;
+    padding:0.95rem 1.3rem; border-radius:50px; box-shadow:0 10px 28px rgba(79,179,132,0.35);
+    transition:box-shadow 0.25s, transform 0.15s; cursor:grab; touch-action:none; user-select:none;
   }
-  .contact-btn:last-child{margin-bottom:0;}
-  .contact-btn.wa{background:var(--grad); color:#06120c; box-shadow:0 6px 18px rgba(79,179,132,0.25);}
-  .contact-btn.wa:hover{transform:translateY(-2px); box-shadow:0 10px 26px rgba(79,179,132,0.38);}
-  .contact-btn.wa:active{transform:scale(0.98);}
+  .fab:active{cursor:grabbing;}
+  .fab.dragging{transition:none; box-shadow:0 16px 36px rgba(79,179,132,0.5); transform:scale(1.05);}
+  .fab-ring{
+    position:absolute; inset:-6px; border-radius:50px; border:1.5px solid var(--accent);
+    animation:ping 2.4s cubic-bezier(0,.6,.4,1) infinite; opacity:0;
+  }
+  .fab.dragging .fab-ring{animation-play-state:paused; opacity:0;}
+  @keyframes ping{0%{transform:scale(0.9); opacity:0.6;} 100%{transform:scale(1.18); opacity:0;}}
 </style>
 </head>
 <body>
 
+<div class="blob blob-a"></div>
+<div class="blob blob-b"></div>
+
 <div class="shell">
 
   <div class="id-card">
-    <div class="id-mark">◆</div>
+    <div class="id-mark-wrap">
+      <div class="id-mark-ring"></div>
+      <div class="id-mark">◆</div>
+    </div>
     <h1>Простые сайты для малого бизнеса</h1>
   </div>
 
-  <div class="nav">
+  <div class="nav" id="mainNav">
+    <div class="nav-indicator" id="navIndicator"></div>
     <button class="nav-btn active" data-panel="about">Обо мне</button>
     <button class="nav-btn" data-panel="services">Услуги</button>
     <button class="nav-btn" data-panel="prices">Цены</button>
     <button class="nav-btn" data-panel="work">Работы</button>
-    <button class="nav-btn" data-panel="contacts">Контакты</button>
   </div>
 
   <div class="panel active" data-panel="about">
-    <h2>Коротко о деле</h2>
-    <p>Собираю одностраничные сайты для небольшого бизнеса — карго-службы, барбершопы, кафе, ПВЗ и подобное.</p>
-    <p>Сайт живёт сразу с рабочей логикой: калькуляторы, формы, интеграции с картами и мессенджерами — а не просто текст и фото.</p>
+    <span class="about-kicker stagger">Философия</span>
+    <h2 class="about-lead stagger">Не просто сайт — <span class="grad-text">рабочий инструмент</span> для вашего бизнеса</h2>
+    <div class="about-block stagger">
+      <p>Собираю одностраничные сайты для небольшого бизнеса — карго-службы, барбершопы, кафе, ПВЗ и подобное.</p>
+      <p>Сайт живёт сразу с рабочей логикой: калькуляторы, формы, интеграции с картами и мессенджерами — а не просто текст и фото.</p>
+    </div>
+    <div class="about-tags stagger">
+      <span>Быстро</span><span>Недорого</span><span>Работает сразу</span>
+    </div>
   </div>
 
   <div class="panel" data-panel="services">
     <h2>Что делаю</h2>
-    <div class="list-row"><div class="ico">◆</div><div><strong>Сайт-визитка</strong><span>Адаптивный дизайн под телефон, разделы под ваш бизнес</span></div></div>
-    <div class="list-row"><div class="ico">∑</div><div><strong>Логика под задачу</strong><span>Калькуляторы, формы заявок, автообновляемые данные</span></div></div>
-    <div class="list-row"><div class="ico">Ⅱ</div><div><strong>Два языка</strong><span>Переключение RU / ҚАЗ по всему контенту</span></div></div>
-    <div class="list-row"><div class="ico">⚭</div><div><strong>Интеграции</strong><span>Карты, мессенджеры, сторонние сервисы трекинга</span></div></div>
+    <div class="list-row stagger"><div class="ico">◆</div><div><strong>Сайт-визитка</strong><span>Адаптивный дизайн под телефон, разделы под ваш бизнес</span></div></div>
+    <div class="list-row stagger"><div class="ico">∑</div><div><strong>Логика под задачу</strong><span>Калькуляторы, формы заявок, автообновляемые данные</span></div></div>
+    <div class="list-row stagger"><div class="ico">Ⅱ</div><div><strong>Два языка</strong><span>Переключение RU / ҚАЗ по всему контенту</span></div></div>
+    <div class="list-row stagger"><div class="ico">⚭</div><div><strong>Интеграции</strong><span>Карты, мессенджеры, сторонние сервисы трекинга</span></div></div>
   </div>
 
   <div class="panel" data-panel="prices">
     <h2>Прайс</h2>
-    <div class="price-row"><div class="label">Сайт-визитка<small>под ключ, адаптивный</small></div><div class="val">15 000 тг</div></div>
-    <div class="price-row"><div class="label">С доп. функциями<small>калькулятор, языки, интеграции</small></div><div class="val">от 35 000 тг</div></div>
-    <div class="price-row"><div class="label">Мелкая правка<small>текст, цена, ссылка</small></div><div class="val">бесплатно</div></div>
-    <div class="price-row"><div class="label">Новая функция<small>после сдачи сайта</small></div><div class="val">по запросу</div></div>
+    <div class="price-row stagger"><div class="label">Сайт-визитка<small>под ключ, адаптивный</small></div><div class="val">15 000 тг</div></div>
+    <div class="price-row stagger"><div class="label">С доп. функциями<small>калькулятор, языки, интеграции</small></div><div class="val">от 35 000 тг</div></div>
+    <div class="price-row stagger"><div class="label">Мелкая правка<small>текст, цена, ссылка</small></div><div class="val">бесплатно</div></div>
+    <div class="price-row stagger"><div class="label">Новая функция<small>после сдачи сайта</small></div><div class="val">по запросу</div></div>
   </div>
 
   <div class="panel" data-panel="work">
     <h2>Примеры</h2>
-    <a href="https://teamcargo-bulaevo-kz.github.io/timcargo/#contacts" target="_blank" rel="noopener" class="work-card">
+    <a href="https://teamcargo-bulaevo-kz.github.io/timcargo/#contacts" target="_blank" rel="noopener" class="work-card stagger">
       <strong>TimCargo Булаево</strong>
       <span>Карго-доставка — калькулятор, курс валют, два языка</span>
       <span class="tag">Сайт карго</span>
     </a>
-    <a href="barbershop-demo.html" class="work-card">
+    <a href="barbershop-demo.html" class="work-card stagger">
       <strong>Барбершоп</strong>
       <span>Тёмная тема, прайс на услуги</span>
       <span class="tag">Демо</span>
     </a>
-    <a href="cafe-demo.html" class="work-card">
+    <a href="https://974637281.github.io/demo1/" target="_blank" rel="noopener" class="work-card stagger">
       <strong>Кафе</strong>
       <span>Меню, условия доставки</span>
       <span class="tag">Демо</span>
     </a>
   </div>
 
-  <div class="panel" data-panel="contacts">
-    <h2>Написать</h2>
-    <a href="https://wa.me/77052538362" target="_blank" rel="noopener" class="contact-btn wa">WhatsApp</a>
-  </div>
-
 </div>
 
+<a href="https://wa.me/77052538362" target="_blank" rel="noopener" class="fab" id="fab">
+  <span class="fab-ring"></span>
+  💬 Написать
+</a>
+
 <script>
-document.querySelectorAll('.nav-btn').forEach(btn => {
+const navButtons = document.querySelectorAll('.nav-btn');
+const indicator = document.getElementById('navIndicator');
+
+function moveIndicator(btn){
+  indicator.style.left = btn.offsetLeft + 'px';
+  indicator.style.width = btn.offsetWidth + 'px';
+}
+
+function replayStagger(panel){
+  panel.querySelectorAll('.stagger').forEach(el => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
+}
+
+navButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const key = btn.getAttribute('data-panel');
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b === btn));
-    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.getAttribute('data-panel') === key));
+    navButtons.forEach(b => b.classList.toggle('active', b === btn));
+    moveIndicator(btn);
+    document.querySelectorAll('.panel').forEach(p => {
+      const isActive = p.getAttribute('data-panel') === key;
+      p.classList.toggle('active', isActive);
+      if (isActive) replayStagger(p);
+    });
   });
+});
+
+window.addEventListener('load', () => moveIndicator(document.querySelector('.nav-btn.active')));
+window.addEventListener('resize', () => moveIndicator(document.querySelector('.nav-btn.active')));
+
+// ── Draggable floating contact button ──
+const fab = document.getElementById('fab');
+let dragging = false, wasDragged = false, startX, startY, originLeft, originTop;
+
+function fabToLeftTop(){
+  const r = fab.getBoundingClientRect();
+  fab.style.left = r.left + 'px';
+  fab.style.top = r.top + 'px';
+  fab.style.right = 'auto';
+  fab.style.bottom = 'auto';
+}
+
+function clamp(val, min, max){ return Math.min(Math.max(val, min), max); }
+
+fab.addEventListener('pointerdown', e => {
+  fabToLeftTop();
+  dragging = true; wasDragged = false;
+  startX = e.clientX; startY = e.clientY;
+  originLeft = fab.offsetLeft; originTop = fab.offsetTop;
+  fab.setPointerCapture(e.pointerId);
+  fab.classList.add('dragging');
+});
+
+fab.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - startX, dy = e.clientY - startY;
+  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) wasDragged = true;
+  if (wasDragged) {
+    const maxLeft = window.innerWidth - fab.offsetWidth - 8;
+    const maxTop = window.innerHeight - fab.offsetHeight - 8;
+    fab.style.left = clamp(originLeft + dx, 8, maxLeft) + 'px';
+    fab.style.top = clamp(originTop + dy, 8, maxTop) + 'px';
+  }
+});
+
+function endDrag(){
+  dragging = false;
+  fab.classList.remove('dragging');
+}
+fab.addEventListener('pointerup', endDrag);
+fab.addEventListener('pointercancel', endDrag);
+
+fab.addEventListener('click', e => {
+  if (wasDragged) { e.preventDefault(); wasDragged = false; }
 });
 </script>
 
